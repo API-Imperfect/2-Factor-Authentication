@@ -1,0 +1,29 @@
+{
+    "name": "two-factor-node",
+    "version": "1.0.0",
+    "description": "2 Factor authentication",
+    "main": "server.js",
+    "repository": "https://github.com/API-Imperfect/2-Factor-Authentication-Node.git",
+    "author": "Ogilo <alphaogilo@gmail.com>",
+    "license": "MIT",
+    "dependencies": {
+        "dotenv": "^8.2.0",
+        "express": "^4.17.1",
+        "mongoose": "^5.11.8"
+    },
+    "devDependencies": {
+        "eslint": "^7.15.0",
+        "eslint-config-airbnb": "^18.2.1",
+        "eslint-config-prettier": "^7.0.0",
+        "eslint-plugin-import": "^2.22.1",
+        "eslint-plugin-jsx-a11y": "^6.4.1",
+        "eslint-plugin-node": "^11.1.0",
+        "eslint-plugin-prettier": "^3.3.0",
+        "eslint-plugin-react": "^7.21.5",
+        "nodemon": "^2.0.6",
+        "prettier": "^2.2.1"
+    },
+    "prettier": {
+        "tabWidth": 4
+    }
+}
