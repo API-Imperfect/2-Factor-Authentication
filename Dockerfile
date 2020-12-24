@@ -1,8 +1,5 @@
 FROM node:14-alpine3.10
 
-ENV MONGO_DB_USERNAME=admin \
-    MONGO_DB_PASSWORD=admin123456
-
 WORKDIR /app
 
 COPY package*.json ./
@@ -13,4 +10,5 @@ COPY . .
 
 EXPOSE 5000
 
+# our default dev command
 CMD ["npm","run","dev"]
