@@ -1,7 +1,9 @@
 require("dotenv").config();
 const express = require("express");
+const cookieParser = require("cookie-parser");
 const connectToDB = require("./database/db");
 const ErrorsMiddleware = require("./middleware/mongooseErrorHandler");
+const authRoutes = require("./routes/authRoutes");
 
 // Uncaught Exception
 process.on("uncaughtException", (error) => {
@@ -19,6 +21,8 @@ connectToDB();
 //Parse JSON
 app.use(express.json());
 
+app.use(cookieParser());
+
 // Declare PORT
 const PORT = process.env.PORT || 5000;
 
@@ -28,6 +32,7 @@ app.get("/", (req, res) => {
         hi: "Welcome to the NodeJS 2FA App",
     });
 });
+app.use("/api/v1/", authRoutes);
 
 // Error Middleware
 app.use(ErrorsMiddleware);
