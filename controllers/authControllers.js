@@ -61,3 +61,14 @@ exports.loginUser = AsyncManager(async (req, res, next) => {
 
     cookieTokenResponse(user, 200, res);
 });
+
+// $-title   Logout User
+// $-path    POST /api/v1/logout
+// $-auth    Public
+exports.logoutUser = AsyncManager(async (req, res, next) => {
+    res.cookie("facade", "loggedout", {
+        expires: new Date(Date.now + 10 * 1000),
+        httpOnly: true,
+    });
+    res.status(200).json({ message: "success" });
+});
