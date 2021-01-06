@@ -1,3 +1,6 @@
+const speakeasy = require("speakeasy");
+const QRCode = require("qrcode");
+const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const AsyncManager = require("../utils/asyncManager");
 const TwoFactorError = require("../utils/twoFactorError");
@@ -15,6 +18,7 @@ const cookieTokenResponse = (user, statusCode, res) => {
         cookieOptions.secure = true;
     }
     user.password = undefined;
+    user.twoFactorAuthCode = undefined;
 
     res.status(statusCode).cookie("facade", token, cookieOptions).json({
         message: "success",
@@ -23,6 +27,30 @@ const cookieTokenResponse = (user, statusCode, res) => {
             user,
         },
     });
+};
+
+const generateSpeakeasySecretCode = () => {
+    const secretCode = speakeasy.generateSecret({
+        name: process.env.TWO_FACTOR_APP_NAME,
+    });
+    return {
+        otpauthUrl: secretCode.otpauth_url,
+        base32: secretCode.base32,
+    };
+};
+
+const returnQRCode = (data, res) => {
+    QRCode.toFileStream(res, data);
+};
+
+exports.generate2FACode = async (req, res, next) => {
+    const token = req.cookies.facade;
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    const { otpauthUrl, base32 } = generateSpeakeasySecretCode();
+    await User.findOneAndUpdate(decoded.indexOf, {
+        twoFactorAuthCode: base32,
+    });
+    returnQRCode(otpauthUrl, res);
 };
 
 // $-title   Register User

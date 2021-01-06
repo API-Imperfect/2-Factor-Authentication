@@ -31,6 +31,8 @@ const UserSchema = new mongoose.Schema({
             message: "Passwords are not the same",
         },
     },
+    twoFactorAuthCode: String,
+    twoFactorAuthEnabled: { type: Boolean, default: false },
 });
 
 UserSchema.pre("save", async function (next) {
