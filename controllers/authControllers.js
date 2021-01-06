@@ -28,7 +28,7 @@ const cookieTokenResponse = (user, statusCode, res) => {
         },
     });
 };
-
+// generate speakeasy secret code
 const generateSpeakeasySecretCode = () => {
     const secretCode = speakeasy.generateSecret({
         name: process.env.TWO_FACTOR_APP_NAME,
@@ -39,10 +39,12 @@ const generateSpeakeasySecretCode = () => {
     };
 };
 
+// return QRCode
 const returnQRCode = (data, res) => {
     QRCode.toFileStream(res, data);
 };
 
+// Check if 2 factor is turned on or not
 exports.generate2FACode = async (req, res, next) => {
     const token = req.cookies.facade;
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
@@ -52,7 +54,7 @@ exports.generate2FACode = async (req, res, next) => {
     });
     returnQRCode(otpauthUrl, res);
 };
-
+// verify and turn on 2FA. return new token
 exports.verify2FACode = async (req, res, next) => {
     const { token } = req.body;
     const cookieToken = req.cookies.facade;
