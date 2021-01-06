@@ -32,7 +32,7 @@ const UserSchema = new mongoose.Schema({
         },
     },
     twoFactorAuthCode: String,
-    twoFactorAuthEnabled: { type: Boolean, default: false },
+    twoFactorAuthEnabled: Boolean,
 });
 
 UserSchema.pre("save", async function (next) {
