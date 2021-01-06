@@ -49,7 +49,7 @@ exports.generate2FACode = async (req, res, next) => {
     const token = req.cookies.facade;
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
     const { otpauthUrl, base32 } = generateSpeakeasySecretCode();
-    await User.findOneAndUpdate(decoded.indexOf, {
+    await User.findOneAndUpdate(decoded.id, {
         twoFactorAuthCode: base32,
     });
     returnQRCode(otpauthUrl, res);
